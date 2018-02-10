@@ -11,7 +11,7 @@ This module will generate an image thumbnail.
 
 #### Default values
 ```js
-const obfuscatorEmail = require('obfuscator-email');
+const imageThumbnail = require('image-thumbnail');
 
 // Default values
 const obfuscateEmail = obfuscatorEmail('onildo.aguiar@gmail.com');

@@ -10,6 +10,12 @@ module.exports = async function (source, options) {
     let width = options && options.width ? options.width : undefined;
     let height = options && options.height ? options.height : undefined;
 
+    // Check source
+    if (typeof source === 'object') {
+        //
+    } else{
+
+    }
 
 
 
