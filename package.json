@@ -1,0 +1,26 @@
+{
+  "name": "image-thumbnail",
+  "version": "1.0.0",
+  "description": "Generate an image thumbnail.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onildoaguiar/image-thumbnail.git"
+  },
+  "keywords": [
+    "image",
+    "javascript",
+    "thumbnail",
+    "resize",
+    "sharp"
+  ],
+  "author": "Onildo Aguiar <onildo.aguiar@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/onildoaguiar/image-thumbnail/issues"
+  },
+  "homepage": "https://github.com/onildoaguiar/image-thumbnail#readme"
+}
