@@ -5,45 +5,37 @@ const sizeOf = require('image-size');
 const sharp = require('sharp');
 const validator = require('validator');
 const axios = require('axios');
+const request = require('request');
 
-const PERCENTAGE = 3;
+const PERCENTAGE = 10;
 const RESPONSE_TYPE = 'buffer';
 
 const fromBase64 = async (source, percentage, width, height, responseType) => {
-    const bufferImage = Buffer.from(source, 'base64');
-    const dimensions = getDimensions(bufferImage, percentage, { width, height });
-    const bufferThumbnail = await sharpResize(bufferImage, dimensions);
+    const imageBuffer = Buffer.from(source, 'base64');
+    const dimensions = getDimensions(imageBuffer, percentage, { width, height });
+    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions);
 
     if (responseType === 'base64') {
-        return bufferThumbnail.toString('base64');
+        return thumbnailBuffer.toString('base64');
     }
 
-    return bufferThumbnail;
+    return thumbnailBuffer;
 };
 
 const fromUri = async (source, percentage, width, height, responseType) => {
-    console.log(source.uri);
 
-    const response = await axios({
-        method: 'get',
-        headers: {
-            'access-control-allow-origin': '*',
-        },
-        url: source.uri,
-        withCredentials: true,
-        responseType: 'stream'
-    });
+    const response = await axios.get(source.uri, { responseType: 'arraybuffer' });
+    const imageBuffer = Buffer.from(response.data, 'binary');
 
-    const bufferImage = response.data;
-    const dimensions = getDimensions(bufferImage, percentage, { width, height });
-    const bufferThumbnail = await sharpResize(bufferImage, dimensions);
+    const dimensions = getDimensions(imageBuffer, percentage, { width, height });
+    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions);
+
 
     if (responseType === 'base64') {
-        return bufferThumbnail.toString('base64');
+        return thumbnailBuffer.toString('base64');
     }
 
-    return bufferThumbnail;
-
+    return thumbnailBuffer;
 };
 
 const fromPath = async (source, percentage, width, height, responseType) => {
@@ -79,12 +71,12 @@ module.exports = async function (source, options) {
     }
 };
 
-const getDimensions = (bufferImage, percentageOfImage, dimensions) => {
+const getDimensions = (imageBuffer, percentageOfImage, dimensions) => {
     if (typeof dimensions.width != 'undefined' && typeof dimensions.height != 'undefined') {
         return { width: dimensions.width, height: dimensions.height };
     }
 
-    dimensions = sizeOf(bufferImage);
+    dimensions = sizeOf(imageBuffer);
 
     let width = parseInt((dimensions.width * (percentageOfImage / 100)).toFixed(0));
     let height = parseInt((dimensions.height * (percentageOfImage / 100)).toFixed(0));
@@ -92,9 +84,9 @@ const getDimensions = (bufferImage, percentageOfImage, dimensions) => {
     return { width, height };
 }
 
-const sharpResize = (bufferImage, dimensions) => {
+const sharpResize = (imageBuffer, dimensions) => {
     return new Promise(function (resolve, reject) {
-        sharp(bufferImage)
+        sharp(imageBuffer)
             .resize(dimensions.width, dimensions.height)
             .withoutEnlargement()
             .toBuffer((err, data, info) => {
