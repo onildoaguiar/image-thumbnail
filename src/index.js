@@ -7,25 +7,46 @@ const validator = require('validator');
 const axios = require('axios');
 
 const PERCENTAGE = 3;
-const RETURN_TYPE = 'buffer';
+const RESPONSE_TYPE = 'buffer';
 
-const fromBase64 = async (source, percentage, width, height, returnType) => {
+const fromBase64 = async (source, percentage, width, height, responseType) => {
     const bufferImage = Buffer.from(source, 'base64');
     const dimensions = getDimensions(bufferImage, percentage, { width, height });
     const bufferThumbnail = await sharpResize(bufferImage, dimensions);
 
-    if (returnType === 'base64') {
+    if (responseType === 'base64') {
         return bufferThumbnail.toString('base64');
     }
 
     return bufferThumbnail;
 };
 
-const fromUri = async (source, percentage, width, height, returnType) => {
+const fromUri = async (source, percentage, width, height, responseType) => {
+    console.log(source.uri);
+
+    const response = await axios({
+        method: 'get',
+        headers: {
+            'access-control-allow-origin': '*',
+        },
+        url: source.uri,
+        withCredentials: true,
+        responseType: 'stream'
+    });
+
+    const bufferImage = response.data;
+    const dimensions = getDimensions(bufferImage, percentage, { width, height });
+    const bufferThumbnail = await sharpResize(bufferImage, dimensions);
+
+    if (responseType === 'base64') {
+        return bufferThumbnail.toString('base64');
+    }
+
+    return bufferThumbnail;
 
 };
 
-const fromPath = async (source, percentage, width, height, returnType) => {
+const fromPath = async (source, percentage, width, height, responseType) => {
 
 };
 
@@ -33,20 +54,20 @@ module.exports = async function (source, options) {
     let percentage = options && options.percentage ? options.percentage : PERCENTAGE;
     let width = options && options.width ? options.width : undefined;
     let height = options && options.height ? options.height : undefined;
-    let returnType = options && options.returnType ? options.returnType : RETURN_TYPE;
+    let responseType = options && options.responseType ? options.responseType : RESPONSE_TYPE;
 
     try {
         // check source
         switch (typeof source) {
             case 'object':
-                return await fromUri(source, percentage, width, height, returnType);
+                return await fromUri(source, percentage, width, height, responseType);
                 break;
             case 'string':
                 if (validator.isBase64(source)) {
-                    return await fromBase64(source, percentage, width, height, returnType);
+                    return await fromBase64(source, percentage, width, height, responseType);
                     break;
                 } else {
-                    return await fromPath(source, percentage, width, height, returnType);
+                    return await fromPath(source, percentage, width, height, responseType);
                     break;
                 }
             default:

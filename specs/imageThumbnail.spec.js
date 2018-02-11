@@ -11,8 +11,15 @@ describe('Image Thumbnail', async () => {
     });
 
     it('should return a base64 image thumbnail from an image base64', async () => {
-        let options = { returnType: 'base64' }
+        let options = { responseType: 'base64' }
         const thumbnail = await ImageThumbnail(Fixtures.imageBase64, options);
+
+        expect(thumbnail).toEqual(Fixtures.thumbnailBase64);
+    });
+
+    it('should return a base64 image thumbnail from an image uri', async () => {
+        let options = { responseType: 'base64' }
+        const thumbnail = await ImageThumbnail({ uri: Fixtures.imageUri }, options);
 
         expect(thumbnail).toEqual(Fixtures.thumbnailBase64);
     });

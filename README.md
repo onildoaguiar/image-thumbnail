@@ -9,21 +9,25 @@ This module will generate an image thumbnail.
 
 ## Usage
 
-#### Default values
+#### Async/Await (Typescript & ES7)
 ```js
 const imageThumbnail = require('image-thumbnail');
 
-// Default values
-const obfuscateEmail = obfuscatorEmail('onildo.aguiar@gmail.com');
+try {
+    const thumbnail = await imageThumbnail('images/dog.jpg');
+    console.log(thumbnail);
+} catch (err) {
+    console.error(err);
+}
 ```
 
-#### With options
+#### Using promises (node 8.x)
 ```js
-const obfuscatorEmail = require('obfuscator-email');
+const imageThumbnail = require('image-thumbnail');
 
-// With options
-const options = { numberOfAsteriks: 3, numberOfCharacters: 3 };
-const obfuscateEmail = obfuscatorEmail('onildo.aguiar@gmail.com', options);
+imageThumbnail('image-thumbnail')
+.then(thumbnail => { console.log(thumbnail); })
+.catch(err => console.error(err));
 ```
 
 # License
