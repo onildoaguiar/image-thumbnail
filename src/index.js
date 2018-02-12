@@ -23,7 +23,6 @@ const fromBase64 = async (source, percentage, width, height, responseType) => {
 };
 
 const fromUri = async (source, percentage, width, height, responseType) => {
-
     const response = await axios.get(source.uri, { responseType: 'arraybuffer' });
     const imageBuffer = Buffer.from(response.data, 'binary');
 
@@ -39,7 +38,16 @@ const fromUri = async (source, percentage, width, height, responseType) => {
 };
 
 const fromPath = async (source, percentage, width, height, responseType) => {
+    const imageBuffer = fs.readFileSync(source);
 
+    const dimensions = getDimensions(imageBuffer, percentage, { width, height });
+    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions);
+
+    if (responseType === 'base64') {
+        return thumbnailBuffer.toString('base64');
+    }
+
+    return thumbnailBuffer;
 };
 
 module.exports = async function (source, options) {

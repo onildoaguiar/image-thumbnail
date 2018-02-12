@@ -9,6 +9,8 @@ This module will generate an image thumbnail.
 
 ## Usage
 
+### imageThumbnail(source, options)
+
 #### Async/Await (Typescript & ES7)
 ```js
 const imageThumbnail = require('image-thumbnail');
@@ -28,6 +30,79 @@ const imageThumbnail = require('image-thumbnail');
 imageThumbnail('image-thumbnail')
 .then(thumbnail => { console.log(thumbnail); })
 .catch(err => console.error(err));
+```
+
+## Examples
+
+#### From Uri
+```js
+const imageThumbnail = require('image-thumbnail');
+
+try {
+    const thumbnail = await ImageThumbnail({ uri: 'https://images/dogs.jpg' });
+    console.log(thumbnail);
+} catch (err) {
+    console.error(err);
+}
+```
+
+#### From Base64
+```js
+const imageThumbnail = require('image-thumbnail');
+
+try {
+    const thumbnail = await ImageThumbnail('/9j/4AAQSkZJRgABAQEBLAEsAAD/4QEERXhpZgAA==');
+    console.log(thumbnail);
+} catch (err) {
+    console.error(err);
+}
+```
+
+#### From Path
+```js
+const imageThumbnail = require('image-thumbnail');
+
+try {
+    const thumbnail = await imageThumbnail('images/dog.jpg');
+    console.log(thumbnail);
+} catch (err) {
+    console.error(err);
+}
+```
+
+## Options
+
+- __options:__
+  - __percentage__ - image thumbnail percentage. Values = 0-10 Default = 10
+  - __width__ - image thumbnail width.
+  - __height__ - image thumbnail height.
+  - __responseType__ - output type. Values = 'base64' || 'buffer' Default = 'buffer'
+
+### Examples
+```js
+const imageThumbnail = require('image-thumbnail');
+
+let options = { percentage: 25, responseType: 'base64' }
+
+try {
+    const thumbnail = await ImageThumbnail('images/dog.jpg', options);
+    console.log(thumbnail);
+} catch (err) {
+    console.error(err);
+}
+```
+
+```js
+const imageThumbnail = require('image-thumbnail');
+
+let options = { width: 100, height: 100, responseType: 'base64' }
+
+try {
+    const thumbnail = await ImageThumbnail('images/dog.jpg', options);
+    console.log(thumbnail);
+} catch (err) {
+    console.error(err);
+}
 ```
 
 # License
