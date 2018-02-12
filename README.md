@@ -4,11 +4,9 @@ Generate an image thumbnail.
 [![NPM](https://nodei.co/npm/image-thumbnail.png)](https://nodei.co/npm/image-thumbnail/)
 
 ## Purpose?
-
 This module will generate an image thumbnail.
 
 ## Usage
-
 ### imageThumbnail(source, options)
 
 #### Async/Await (Typescript & ES7)
@@ -73,10 +71,10 @@ try {
 ## Options
 
 - __options:__
-  - __percentage__ - image thumbnail percentage. Values = 0-10 Default = 10
-  - __width__ - image thumbnail width.
-  - __height__ - image thumbnail height.
-  - __responseType__ - output type. Values = 'base64' || 'buffer' Default = 'buffer'
+  - __percentage__ [0-100] - image thumbnail percentage. Default = 10
+  - __width__ [number] - image thumbnail width.
+  - __height__ [number] - image thumbnail height.
+  - __responseType__ ['buffer' || 'base64'] - response output type. Default = 'buffer'
 
 ### Examples
 ```js
