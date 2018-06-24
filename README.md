@@ -37,7 +37,7 @@ imageThumbnail('image-thumbnail')
 const imageThumbnail = require('image-thumbnail');
 
 try {
-    const thumbnail = await ImageThumbnail({ uri: 'https://images/dogs.jpg' });
+    const thumbnail = await imageThumbnail({ uri: 'https://images/dogs.jpg' });
     console.log(thumbnail);
 } catch (err) {
     console.error(err);
@@ -49,7 +49,7 @@ try {
 const imageThumbnail = require('image-thumbnail');
 
 try {
-    const thumbnail = await ImageThumbnail('/9j/4AAQSkZJRgABAQEBLAEsAAD/4QEERXhpZgAA==');
+    const thumbnail = await imageThumbnail('/9j/4AAQSkZJRgABAQEBLAEsAAD/4QEERXhpZgAA==');
     console.log(thumbnail);
 } catch (err) {
     console.error(err);
@@ -83,7 +83,7 @@ const imageThumbnail = require('image-thumbnail');
 let options = { percentage: 25, responseType: 'base64' }
 
 try {
-    const thumbnail = await ImageThumbnail('images/dog.jpg', options);
+    const thumbnail = await imageThumbnail('images/dog.jpg', options);
     console.log(thumbnail);
 } catch (err) {
     console.error(err);
@@ -96,7 +96,7 @@ const imageThumbnail = require('image-thumbnail');
 let options = { width: 100, height: 100, responseType: 'base64' }
 
 try {
-    const thumbnail = await ImageThumbnail('images/dog.jpg', options);
+    const thumbnail = await imageThumbnail('images/dog.jpg', options);
     console.log(thumbnail);
 } catch (err) {
     console.error(err);
