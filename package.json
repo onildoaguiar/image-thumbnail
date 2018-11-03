@@ -1,6 +1,6 @@
 {
   "name": "image-thumbnail",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generate an image thumbnail.",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "sharp",
     "percentage"
   ],
-  "author": "Onildo Aguiar <onildo.aguiar@gmail.com>",
+  "author": "Onildo Aguiar <onildo.aguiar@live.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/onildoaguiar/image-thumbnail/issues"
