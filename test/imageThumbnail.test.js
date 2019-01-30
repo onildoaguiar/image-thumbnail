@@ -1,7 +1,7 @@
 'use strict';
 
-const ImageThumbnail = require('../src/');
-const Fixtures = require('../resources/_fixtures/');
+const ImageThumbnail = require('../src');
+const Fixtures = require('../resources/_fixtures');
 
 describe('Image Thumbnail', async () => {
     it('should return a buffer image thumbnail from an image base64', async () => {

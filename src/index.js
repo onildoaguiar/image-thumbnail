@@ -5,7 +5,6 @@ const sizeOf = require('image-size');
 const sharp = require('sharp');
 const validator = require('validator');
 const axios = require('axios');
-const request = require('request');
 
 const PERCENTAGE = 10;
 const RESPONSE_TYPE = 'buffer';
