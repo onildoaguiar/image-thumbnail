@@ -5,6 +5,7 @@ const sizeOf = require('image-size');
 const sharp = require('sharp');
 const validator = require('validator');
 const axios = require('axios');
+const util = require('./util');
 
 const PERCENTAGE = 10;
 const RESPONSE_TYPE = 'buffer';
@@ -49,17 +50,49 @@ const fromPath = async (source, percentage, width, height, responseType) => {
     return thumbnailBuffer;
 };
 
-module.exports = async function (source, options) {
+const fromReadStream = async (source, percentage, width, height, responseType) => {
+    const imageBuffer = await util.streamToBuffer(source);
+    const dimensions = getDimensions(imageBuffer, percentage, { width, height });
+    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions);
+
+    if (responseType === 'base64') {
+        return thumbnailBuffer.toString('base64');
+    }
+
+    return thumbnailBuffer;
+};
+
+const fromBuffer = async (source, percentage, width, height, responseType) => {
+    const imageBuffer = source;
+
+    const dimensions = getDimensions(imageBuffer, percentage, { width, height });
+    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions);
+
+    if (responseType === 'base64') {
+        return thumbnailBuffer.toString('base64');
+    }
+
+    return thumbnailBuffer;
+};
+
+module.exports = async (source, options) => {
     let percentage = options && options.percentage ? options.percentage : PERCENTAGE;
     let width = options && options.width ? options.width : undefined;
     let height = options && options.height ? options.height : undefined;
     let responseType = options && options.responseType ? options.responseType : RESPONSE_TYPE;
 
     try {
-        // check source
         switch (typeof source) {
             case 'object':
-                return await fromUri(source, percentage, width, height, responseType);
+                let response;
+                if (source instanceof fs.ReadStream) {
+                    response = await fromReadStream(source, percentage, width, height, responseType);
+                } else if (source instanceof Buffer) {
+                    response = await fromBuffer(source, percentage, width, height, responseType);
+                } else {
+                    response = await fromUri(source, percentage, width, height, responseType);
+                }
+                return response;
                 break;
             case 'string':
                 if (validator.isBase64(source)) {
@@ -92,7 +125,7 @@ const getDimensions = (imageBuffer, percentageOfImage, dimensions) => {
 }
 
 const sharpResize = (imageBuffer, dimensions) => {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         sharp(imageBuffer)
             .resize(dimensions.width, dimensions.height)
             .withoutEnlargement()
