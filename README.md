@@ -14,7 +14,7 @@ This module will generate an image thumbnail.
 const imageThumbnail = require('image-thumbnail');
 
 try {
-    const thumbnail = await imageThumbnail('images/dog.jpg');
+    const thumbnail = await imageThumbnail('resources/images/dog.jpg');
     console.log(thumbnail);
 } catch (err) {
     console.error(err);
@@ -26,8 +26,8 @@ try {
 const imageThumbnail = require('image-thumbnail');
 
 imageThumbnail('image-thumbnail')
-.then(thumbnail => { console.log(thumbnail); })
-.catch(err => console.error(err));
+    .then(thumbnail => { console.log(thumbnail) })
+    .catch(err => console.error(err));
 ```
 
 ## Examples
@@ -61,7 +61,36 @@ try {
 const imageThumbnail = require('image-thumbnail');
 
 try {
-    const thumbnail = await imageThumbnail('images/dog.jpg');
+    const thumbnail = await imageThumbnail('resources/images/dog.jpg');
+    console.log(thumbnail);
+} catch (err) {
+    console.error(err);
+}
+```
+
+#### From Buffer
+```js
+const imageThumbnail = require('image-thumbnail');
+
+try {
+    const imageBuffer = fs.readFileSync('resources/images/dog.jpg');
+
+    const thumbnail = await imageThumbnail(imageBuffer);
+    console.log(thumbnail);
+} catch (err) {
+    console.error(err);
+}
+```
+
+#### From Stream
+```js
+const imageThumbnail = require('image-thumbnail');
+const fs = require('fs');
+
+try {
+    const stream = fs.createReadStream('resources/images/dog.jpg')
+
+    const thumbnail = await imageThumbnail(stream);
     console.log(thumbnail);
 } catch (err) {
     console.error(err);
@@ -83,7 +112,7 @@ const imageThumbnail = require('image-thumbnail');
 let options = { percentage: 25, responseType: 'base64' }
 
 try {
-    const thumbnail = await imageThumbnail('images/dog.jpg', options);
+    const thumbnail = await imageThumbnail('resources/images/dog.jpg', options);
     console.log(thumbnail);
 } catch (err) {
     console.error(err);
@@ -96,7 +125,7 @@ const imageThumbnail = require('image-thumbnail');
 let options = { width: 100, height: 100, responseType: 'base64' }
 
 try {
-    const thumbnail = await imageThumbnail('images/dog.jpg', options);
+    const thumbnail = await imageThumbnail('resources/images/dog.jpg', options);
     console.log(thumbnail);
 } catch (err) {
     console.error(err);
