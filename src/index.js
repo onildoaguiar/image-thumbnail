@@ -127,8 +127,7 @@ const getDimensions = (imageBuffer, percentageOfImage, dimensions) => {
 const sharpResize = (imageBuffer, dimensions) => {
     return new Promise((resolve, reject) => {
         sharp(imageBuffer)
-            .resize(dimensions.width, dimensions.height)
-            .withoutEnlargement()
+            .resize({ width: dimensions.width, heigth: dimensions.height, withoutEnlargement: true })
             .toBuffer((err, data, info) => {
                 if (err) {
                     reject(err);

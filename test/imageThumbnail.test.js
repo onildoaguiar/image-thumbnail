@@ -5,7 +5,7 @@ const ImageThumbnail = require('../src');
 const Fixtures = require('../resources/_fixtures');
 const IMAGE_PATH = './resources/images/dog.jpg';
 
-describe('Image Thumbnail', async () => {
+describe('Image Thumbnail', () => {
     it('should return a buffer image thumbnail from an image base64', async () => {
         const thumbnail = await ImageThumbnail(Fixtures.imageBase64);
 
