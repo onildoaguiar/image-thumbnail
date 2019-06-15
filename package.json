@@ -1,6 +1,6 @@
 {
   "name": "image-thumbnail",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Generate an image thumbnail.",
   "main": "index.js",
   "scripts": {
@@ -25,13 +25,13 @@
   },
   "homepage": "https://github.com/onildoaguiar/image-thumbnail#readme",
   "devDependencies": {
-    "jest": "^22.2.2"
+    "jest": "^24.8.0"
   },
   "dependencies": {
-    "axios": "^0.17.1",
-    "image-size": "^0.6.2",
-    "sharp": "^0.19.0",
-    "validator": "^9.4.0"
+    "axios": "^0.19.0",
+    "image-size": "^0.7.4",
+    "sharp": "^0.22.1",
+    "validator": "^11.0.0"
   },
   "jest": {
     "testEnvironment": "node"
