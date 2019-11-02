@@ -10,10 +10,10 @@ const util = require('./util');
 const PERCENTAGE = 10;
 const RESPONSE_TYPE = 'buffer';
 
-const fromBase64 = async (source, percentage, width, height, responseType) => {
+const fromBase64 = async (source, percentage, width, height, responseType, jpegOptions) => {
     const imageBuffer = Buffer.from(source, 'base64');
     const dimensions = getDimensions(imageBuffer, percentage, { width, height });
-    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions);
+    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions, jpegOptions);
 
     if (responseType === 'base64') {
         return thumbnailBuffer.toString('base64');
@@ -22,12 +22,12 @@ const fromBase64 = async (source, percentage, width, height, responseType) => {
     return thumbnailBuffer;
 };
 
-const fromUri = async (source, percentage, width, height, responseType) => {
+const fromUri = async (source, percentage, width, height, responseType, jpegOptions) => {
     const response = await axios.get(source.uri, { responseType: 'arraybuffer' });
     const imageBuffer = Buffer.from(response.data, 'binary');
 
     const dimensions = getDimensions(imageBuffer, percentage, { width, height });
-    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions);
+    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions, jpegOptions);
 
 
     if (responseType === 'base64') {
@@ -37,11 +37,11 @@ const fromUri = async (source, percentage, width, height, responseType) => {
     return thumbnailBuffer;
 };
 
-const fromPath = async (source, percentage, width, height, responseType) => {
+const fromPath = async (source, percentage, width, height, responseType, jpegOptions) => {
     const imageBuffer = fs.readFileSync(source);
 
     const dimensions = getDimensions(imageBuffer, percentage, { width, height });
-    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions);
+    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions, jpegOptions);
 
     if (responseType === 'base64') {
         return thumbnailBuffer.toString('base64');
@@ -50,10 +50,10 @@ const fromPath = async (source, percentage, width, height, responseType) => {
     return thumbnailBuffer;
 };
 
-const fromReadStream = async (source, percentage, width, height, responseType) => {
+const fromReadStream = async (source, percentage, width, height, responseType, jpegOptions) => {
     const imageBuffer = await util.streamToBuffer(source);
     const dimensions = getDimensions(imageBuffer, percentage, { width, height });
-    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions);
+    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions, jpegOptions);
 
     if (responseType === 'base64') {
         return thumbnailBuffer.toString('base64');
@@ -62,11 +62,11 @@ const fromReadStream = async (source, percentage, width, height, responseType) =
     return thumbnailBuffer;
 };
 
-const fromBuffer = async (source, percentage, width, height, responseType) => {
+const fromBuffer = async (source, percentage, width, height, responseType, jpegOptions) => {
     const imageBuffer = source;
 
     const dimensions = getDimensions(imageBuffer, percentage, { width, height });
-    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions);
+    const thumbnailBuffer = await sharpResize(imageBuffer, dimensions, jpegOptions);
 
     if (responseType === 'base64') {
         return thumbnailBuffer.toString('base64');
@@ -80,26 +80,27 @@ module.exports = async (source, options) => {
     let width = options && options.width ? options.width : undefined;
     let height = options && options.height ? options.height : undefined;
     let responseType = options && options.responseType ? options.responseType : RESPONSE_TYPE;
+    let jpegOptions = options && options.jpegOptions ? options.jpegOptions : undefined;
 
     try {
         switch (typeof source) {
             case 'object':
                 let response;
                 if (source instanceof fs.ReadStream) {
-                    response = await fromReadStream(source, percentage, width, height, responseType);
+                    response = await fromReadStream(source, percentage, width, height, responseType, jpegOptions);
                 } else if (source instanceof Buffer) {
-                    response = await fromBuffer(source, percentage, width, height, responseType);
+                    response = await fromBuffer(source, percentage, width, height, responseType, jpegOptions);
                 } else {
-                    response = await fromUri(source, percentage, width, height, responseType);
+                    response = await fromUri(source, percentage, width, height, responseType, jpegOptions);
                 }
                 return response;
                 break;
             case 'string':
                 if (validator.isBase64(source)) {
-                    return await fromBase64(source, percentage, width, height, responseType);
+                    return await fromBase64(source, percentage, width, height, responseType, jpegOptions);
                     break;
                 } else {
-                    return await fromPath(source, percentage, width, height, responseType);
+                    return await fromPath(source, percentage, width, height, responseType, jpegOptions);
                     break;
                 }
             default:
@@ -124,10 +125,11 @@ const getDimensions = (imageBuffer, percentageOfImage, dimensions) => {
     return { width, height };
 }
 
-const sharpResize = (imageBuffer, dimensions) => {
+const sharpResize = (imageBuffer, dimensions, jpegOptions) => {
     return new Promise((resolve, reject) => {
         sharp(imageBuffer)
             .resize({ width: dimensions.width, heigth: dimensions.height, withoutEnlargement: true })
+            .jpeg(jpegOptions?jpegOptions:{force:false})
             .toBuffer((err, data, info) => {
                 if (err) {
                     reject(err);
