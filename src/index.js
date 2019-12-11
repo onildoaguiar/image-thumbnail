@@ -94,18 +94,14 @@ module.exports = async (source, options) => {
                     response = await fromUri(source, percentage, width, height, responseType, jpegOptions);
                 }
                 return response;
-                break;
             case 'string':
                 if (validator.isBase64(source)) {
                     return await fromBase64(source, percentage, width, height, responseType, jpegOptions);
-                    break;
                 } else {
                     return await fromPath(source, percentage, width, height, responseType, jpegOptions);
-                    break;
                 }
             default:
                 throw new Error('unsupported source type');
-                break;
         }
     } catch (err) {
         throw new Error(err.message);
