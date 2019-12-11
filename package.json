@@ -37,6 +37,6 @@
     "testEnvironment": "node"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://npm.pkg.github.com/onildoaguiar"
   }
 }
