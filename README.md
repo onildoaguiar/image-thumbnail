@@ -27,7 +27,7 @@ try {
 ```js
 const imageThumbnail = require('image-thumbnail');
 
-imageThumbnail('image-thumbnail')
+imageThumbnail('resources/images/dog.jpg')
     .then(thumbnail => { console.log(thumbnail) })
     .catch(err => console.error(err));
 ```
