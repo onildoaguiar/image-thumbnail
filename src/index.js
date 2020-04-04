@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const stream = require('stream');
 const sizeOf = require('image-size');
 const sharp = require('sharp');
 const validator = require('validator');
@@ -86,7 +87,7 @@ module.exports = async (source, options) => {
         switch (typeof source) {
             case 'object':
                 let response;
-                if (source instanceof fs.ReadStream) {
+                if (source instanceof fs.ReadStream || source instanceof stream.PassThrough) {
                     response = await fromReadStream(source, percentage, width, height, responseType, jpegOptions);
                 } else if (source instanceof Buffer) {
                     response = await fromBuffer(source, percentage, width, height, responseType, jpegOptions);
