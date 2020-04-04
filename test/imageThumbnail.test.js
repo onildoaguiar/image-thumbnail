@@ -15,14 +15,14 @@ describe('Image Thumbnail', () => {
         });
 
         it('should return a buffer image thumbnail from an image uri', async () => {
-            let options = { responseType: 'buffer' };
+            const options = { responseType: 'buffer' };
             const thumbnail = await imageThumbnail({ uri: fixtures.imageUri }, options);
 
             expect(thumbnail.toJSON()).toEqual(fixtures.thumbnailBufferFromUri);
         });
 
         it('should return a buffer image thumbnail from a file path', async () => {
-            let options = { responseType: 'buffer' };
+            const options = { responseType: 'buffer' };
             const thumbnail = await imageThumbnail(IMAGE_PATH, options);
 
             expect(thumbnail.toJSON()).toEqual(fixtures.thumbnailBufferFromFilePath);
@@ -46,14 +46,14 @@ describe('Image Thumbnail', () => {
     describe('Thumbnail Base64', () => {
 
         it('should return a base64 image thumbnail from an image base64', async () => {
-            let options = { responseType: 'base64' };
+            const options = { responseType: 'base64' };
             const thumbnail = await imageThumbnail(fixtures.imageBase64, options);
     
             expect(thumbnail).toEqual(fixtures.thumbnailBase64FromBase64);
         });
 
         it('should return a base64 image thumbnail from a buffer', async () => {
-            let options = { responseType: 'base64' };
+            const options = { responseType: 'base64' };
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
 
@@ -61,7 +61,7 @@ describe('Image Thumbnail', () => {
         });
 
         it('should return a base64 image thumbnail from a stream', async () => {
-            let options = { responseType: 'base64' };
+            const options = { responseType: 'base64' };
             const imageStream = fs.createReadStream(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageStream, options);
 
@@ -69,14 +69,14 @@ describe('Image Thumbnail', () => {
         });
 
         it('should return a base64 image thumbnail from an image uri', async () => {
-            let options = { responseType: 'base64' };
+            const options = { responseType: 'base64' };
             const thumbnail = await imageThumbnail({ uri: fixtures.imageUri }, options);
 
             expect(thumbnail).toEqual(fixtures.thumbnailBase64FromUri);
         });
 
         it('should return a base64 image thumbnail from a file path', async () => {
-            let options = { responseType: 'base64' };
+            const options = { responseType: 'base64' };
             const thumbnail = await imageThumbnail(IMAGE_PATH, options);
 
             expect(thumbnail).toEqual(fixtures.thumbnailBase64FromFilePath);
@@ -86,7 +86,7 @@ describe('Image Thumbnail', () => {
 
     describe('Options', () => {
         it('should return a buffer image and keep aspect 300x200', async () => {
-            let options = { width: 300, height: 200};
+            const options = { width: 300, height: 200};
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
@@ -96,7 +96,7 @@ describe('Image Thumbnail', () => {
         });
 
         it('should return a buffer image with width equals 300', async () => {
-            let options = { width: 300};
+            const options = { width: 300};
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
@@ -107,7 +107,7 @@ describe('Image Thumbnail', () => {
         });
 
         it('should return a buffer image with height equals 300', async () => {
-            let options = { height: 300};
+            const options = { height: 300};
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
@@ -118,7 +118,7 @@ describe('Image Thumbnail', () => {
         });
 
         it('should return a buffer image with width equals 300 and height equals 200', async () => {
-            let options = { width: 300, height: 200};
+            const options = { width: 300, height: 200};
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
@@ -128,7 +128,7 @@ describe('Image Thumbnail', () => {
         });
 
         it('should return a buffer image with width equals 960 and height equals 200', async () => {
-            let options = { height: 200};
+            const options = { height: 200};
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
@@ -138,7 +138,7 @@ describe('Image Thumbnail', () => {
         });
 
         it('should return a buffer image with width equals 144 and height equals 96', async () => {
-            let options = { percentage: 15};
+            const options = { percentage: 15};
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
