@@ -48,7 +48,7 @@ describe('Image Thumbnail', () => {
         it('should return a base64 image thumbnail from an image base64', async () => {
             let options = { responseType: 'base64' };
             const thumbnail = await imageThumbnail(fixtures.imageBase64, options);
-
+    
             expect(thumbnail).toEqual(fixtures.thumbnailBase64FromBase64);
         });
 
@@ -86,7 +86,7 @@ describe('Image Thumbnail', () => {
 
     describe('Options', () => {
         it('should return a buffer image and keep aspect 300x200', async () => {
-            let options = { width: 300, height: 145};
+            let options = { width: 300, height: 200};
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
@@ -102,6 +102,19 @@ describe('Image Thumbnail', () => {
             const dimensions = sizeOf(thumbnail);
 
             expect(dimensions.width).toEqual(300);
+            expect(dimensions.height).toEqual(639);
+
+        });
+
+        it('should return a buffer image with height equals 300', async () => {
+            let options = { height: 300};
+            const imageBuffer = fs.readFileSync(IMAGE_PATH);
+            const thumbnail = await imageThumbnail(imageBuffer, options);
+            const dimensions = sizeOf(thumbnail);
+
+            expect(dimensions.width).toEqual(960);
+            expect(dimensions.height).toEqual(300);
+
         });
 
         it('should return a buffer image with width equals 300 and height equals 200', async () => {
@@ -114,14 +127,14 @@ describe('Image Thumbnail', () => {
             expect(dimensions.height).toEqual(200);
         });
 
-        it('should return a buffer image with width equals 960 and height equals 639', async () => {
+        it('should return a buffer image with width equals 960 and height equals 200', async () => {
             let options = { height: 200};
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
 
             expect(dimensions.width).toEqual(960);
-            expect(dimensions.height).toEqual(639);
+            expect(dimensions.height).toEqual(200);
         });
 
         it('should return a buffer image with width equals 144 and height equals 96', async () => {
