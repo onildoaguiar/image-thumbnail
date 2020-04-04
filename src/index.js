@@ -141,7 +141,7 @@ const mergeDimensions = (imageBuffer, dimensions) => {
 const sharpResize = (imageBuffer, dimensions, jpegOptions) => {
     return new Promise((resolve, reject) => {
         sharp(imageBuffer)
-            .resize({ width: dimensions.width, heigth: dimensions.height, withoutEnlargement: true })
+            .resize({ width: dimensions.width, height: dimensions.height, withoutEnlargement: true })
             .jpeg(jpegOptions ? jpegOptions : { force: false })
             .toBuffer((err, data, info) => {
                 if (err) {
