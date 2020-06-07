@@ -110,12 +110,8 @@ module.exports = async (source, options) => {
 };
 
 const getDimensions = (imageBuffer, percentageOfImage, dimensions) => {
-    if (typeof dimensions.width != 'undefined' && typeof dimensions.height != 'undefined') {
-        return { width: dimensions.width, height: dimensions.height };
-    }
-
     if (typeof dimensions.width != 'undefined' || typeof dimensions.height != 'undefined') {
-        return mergeDimensions(imageBuffer, dimensions)
+        return util.removeUndefined(dimensions);
     }
 
     const originalDimensions = sizeOf(imageBuffer);
@@ -126,34 +122,17 @@ const getDimensions = (imageBuffer, percentageOfImage, dimensions) => {
     return { width, height };
 }
 
-const mergeDimensions = (imageBuffer, dimensions) => {
-    const originalDimensions = sizeOf(imageBuffer);
-    let newDimensions = dimensions
-
-    if (typeof dimensions.width == 'undefined')
-        newDimensions = { width: originalDimensions.width, height: dimensions.height };
-    else if (typeof dimensions.height == 'undefined')
-        newDimensions = { width: dimensions.width, height: originalDimensions.height };
-
-    return newDimensions;
-}
-
 const sharpResize = (imageBuffer, dimensions, jpegOptions) => {
     return new Promise((resolve, reject) => {
         sharp(imageBuffer)
-            .resize({ width: dimensions.width, height: dimensions.height, withoutEnlargement: true })
+            .resize({
+                ...dimensions, withoutEnlargement: true, fit: 'contain',
+            })
             .jpeg(jpegOptions ? jpegOptions : { force: false })
-            .toBuffer((err, data, info) => {
+            .toBuffer((err, data) => {
                 if (err) {
                     reject(err);
                 } else {
-                    const { format, width, height, size } = info;
-                    const imagePayload = {
-                        format: format,
-                        width: width,
-                        height: height,
-                        size: size,
-                    };
                     resolve(data);
                 }
             });
