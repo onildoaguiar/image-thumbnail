@@ -1,6 +1,6 @@
 {
   "name": "image-thumbnail",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Generate an image thumbnail.",
   "main": "index.js",
   "scripts": {
