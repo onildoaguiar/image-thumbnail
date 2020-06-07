@@ -4,6 +4,7 @@ const fs = require('fs');
 const sizeOf = require('image-size');
 const imageThumbnail = require('../src');
 const fixtures = require('./_fixtures');
+const util = require('../src/util');
 const IMAGE_PATH = './resources/images/dog.jpg';
 
 describe('Image Thumbnail', () => {
@@ -48,7 +49,7 @@ describe('Image Thumbnail', () => {
         it('should return a base64 image thumbnail from an image base64', async () => {
             const options = { responseType: 'base64' };
             const thumbnail = await imageThumbnail(fixtures.imageBase64, options);
-    
+
             expect(thumbnail).toEqual(fixtures.thumbnailBase64FromBase64);
         });
 
@@ -86,7 +87,7 @@ describe('Image Thumbnail', () => {
 
     describe('Options', () => {
         it('should return a buffer image and keep aspect 300x200', async () => {
-            const options = { width: 300, height: 200};
+            const options = { width: 300, height: 200 };
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
@@ -96,29 +97,29 @@ describe('Image Thumbnail', () => {
         });
 
         it('should return a buffer image with width equals 300', async () => {
-            const options = { width: 300};
+            const options = { width: 300 };
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
 
             expect(dimensions.width).toEqual(300);
-            expect(dimensions.height).toEqual(639);
+            expect(dimensions.height).toEqual(200);
 
         });
 
         it('should return a buffer image with height equals 300', async () => {
-            const options = { height: 300};
+            const options = { height: 300 };
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
 
-            expect(dimensions.width).toEqual(960);
+            expect(dimensions.width).toEqual(451);
             expect(dimensions.height).toEqual(300);
 
         });
 
         it('should return a buffer image with width equals 300 and height equals 200', async () => {
-            const options = { width: 300, height: 200};
+            const options = { width: 300, height: 200 };
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
@@ -127,24 +128,54 @@ describe('Image Thumbnail', () => {
             expect(dimensions.height).toEqual(200);
         });
 
-        it('should return a buffer image with width equals 960 and height equals 200', async () => {
-            const options = { height: 200};
+        it('should return a buffer image with width quals 200', async () => {
+            const options = { height: 200 };
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
 
-            expect(dimensions.width).toEqual(960);
+            expect(dimensions.width).toEqual(300);
             expect(dimensions.height).toEqual(200);
         });
 
         it('should return a buffer image with width equals 144 and height equals 96', async () => {
-            const options = { percentage: 15};
+            const options = { percentage: 15 };
             const imageBuffer = fs.readFileSync(IMAGE_PATH);
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
 
             expect(dimensions.width).toEqual(144);
             expect(dimensions.height).toEqual(96);
+        });
+    });
+
+    describe('Utils', () => {
+        describe('RemoveUndefined', () => {
+            it('should return an object only with height', async () => {
+                const originalObject = { width: undefined, height: 200 };
+
+                const newObject = util.removeUndefined(originalObject)
+
+                expect(newObject).toEqual({ height: 200 });
+            });
+
+            it('should return an object only with width', async () => {
+                const originalObject = { width: 200, height: undefined };
+
+                const newObject = util.removeUndefined(originalObject)
+
+                expect(newObject).toEqual({ width: 200 });
+
+            });
+
+            it('should return an object with width and height', async () => {
+                const originalObject = { width: 200, height: 200 };
+
+                const newObject = util.removeUndefined(originalObject)
+
+                expect(newObject).toEqual(originalObject);
+
+            });
         });
     });
 });
