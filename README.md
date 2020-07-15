@@ -107,6 +107,7 @@ try {
   - __height__ [number] - image thumbnail height.
   - __responseType__ ['buffer' || 'base64'] - response output type. Default = 'buffer'
   - __jpegOptions__ [0-100] - Example: { force:true, quality:100 }
+  - __fit__ [string] - method by which the image should fit the width/height. Default = contain
 
 ### Examples
 ```js
