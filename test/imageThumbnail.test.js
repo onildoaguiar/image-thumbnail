@@ -84,8 +84,8 @@ describe('Image Thumbnail', () => {
             expect(thumbnail).toEqual(fixtures.thumbnailBase64FromFilePath);
         });
 
-        fit('should return a base64 image thumbnail from an image from samsung phones due to weird encoding', async () => {
-            const options = { responseType: 'base64' };
+        it('should return a base64 image thumbnail from an image from samsung phones due to weird encoding and failOnError set', async () => {
+            const options = { responseType: 'base64', failOnError: false };
             const thumbnail = await imageThumbnail(fixtures.imageBaseSamsung, options);
 
             expect(thumbnail).toEqual(fixtures.thumbnailBase64FromSamsung);
