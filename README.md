@@ -108,6 +108,7 @@ try {
   - __responseType__ ['buffer' || 'base64'] - response output type. Default = 'buffer'
   - __jpegOptions__ [0-100] - Example: { force:true, quality:100 }
   - __fit__ [string] - method by which the image should fit the width/height. Default = contain ([details](https://sharp.pixelplumbing.com/api-resize))
+  - __failOnError__ [boolean] - Set to false to avoid read problems for images from some phones (i.e Samsung) in the sharp lib. Default = true ([details](https://github.com/lovell/sharp/issues/1578))
 
 ### Examples
 ```js
