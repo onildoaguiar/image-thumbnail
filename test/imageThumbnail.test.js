@@ -111,7 +111,7 @@ describe('Image Thumbnail', () => {
             const dimensions = sizeOf(thumbnail);
 
             expect(dimensions.width).toEqual(300);
-            expect(dimensions.height).toEqual(200);
+            expect(dimensions.height).toEqual(199);
 
         });
 
@@ -142,7 +142,7 @@ describe('Image Thumbnail', () => {
             const thumbnail = await imageThumbnail(imageBuffer, options);
             const dimensions = sizeOf(thumbnail);
 
-            expect(dimensions.width).toEqual(300);
+            expect(dimensions.width).toEqual(301);
             expect(dimensions.height).toEqual(200);
         });
 
