@@ -6,7 +6,7 @@ Generate an image thumbnail.
 ## Purpose?
 This module will generate an image thumbnail.
 
-By default the thumbnail's file format will be the same than the source file. You can use the __jpegOptions__ option to force output to jpeg.
+By default the thumbnail's file format will be the same as the source file. You can use the __jpegOptions__ option to force output to jpeg.
 
 ## Usage
 ### imageThumbnail(source, options)
