@@ -110,6 +110,7 @@ try {
   - __fit__ [string] - method by which the image should fit the width/height. Default = contain ([details](https://sharp.pixelplumbing.com/api-resize))
   - __failOnError__ [boolean] - Set to false to avoid read problems for images from some phones (i.e Samsung) in the sharp lib. Default = true ([details](https://github.com/lovell/sharp/issues/1578))
   - __withMetaData__ [boolean] - Keep metadata in the thumbnail (will increase file size)
+  - __flattenBackgroundColor__ [background colour] - parsed by the color module, defaults to #ffffff.
 
 ### Examples
 ```js
