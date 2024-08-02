@@ -3,15 +3,16 @@ name: Node.js Package
 on:
   release:
     types: [created]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3  # Update to the latest version
-      - uses: actions/setup-node@v3  # Update to the latest version
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Use a more recent Node.js version (LTS or stable)
+          node-version: '18'
       - run: npm ci
       - run: npm test
 
@@ -19,12 +20,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3  # Update to the latest version
-      - uses: actions/setup-node@v3  # Update to the latest version
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Use a more recent Node.js version (LTS or stable)
+          node-version: '18'
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  # Ensure the secret is named correctly
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
