@@ -13,15 +13,15 @@ const thumbnailBase64FromSamsung = require('./thumbnailBase64FromSamsung.json').
 const unsupportedSourceType = 'Error: unsupported source type'
 
 module.exports = {
-    imageBase64,
-    imageUri,
-    thumbnailBufferFromBase64,
-    thumbnailBufferFromFilePath,
-    thumbnailBufferFromUri,
-    thumbnailBase64FromBase64,
-    thumbnailBase64FromFilePath,
-    thumbnailBase64FromUri,
-    unsupportedSourceType,
-    imageBaseSamsung,
-    thumbnailBase64FromSamsung
+  imageBase64,
+  imageUri,
+  thumbnailBufferFromBase64,
+  thumbnailBufferFromFilePath,
+  thumbnailBufferFromUri,
+  thumbnailBase64FromBase64,
+  thumbnailBase64FromFilePath,
+  thumbnailBase64FromUri,
+  unsupportedSourceType,
+  imageBaseSamsung,
+  thumbnailBase64FromSamsung
 };
